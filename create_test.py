@@ -31,7 +31,7 @@ else:
 # Function to open a file in the system
     def open_file():
         print('Please choose a source file.')
-        filepath = filedialog.askopenfilename(title = "テキストファイルを選択してください", filetypes = (("text files", "*.txt"), ("all files", "*.*")))
+        filepath = filedialog.askopenfilename(title = "テキストファイルを選択してください", filetypes = (("text files", "*.txt"), ("markdown", "*.md"), ("all files", "*.*")))
         file = open(filepath,'r')
         input_file = file.readlines()
         filename = filepath.split('/')[-1]
