@@ -1,0 +1,97 @@
+/* make the text vertical */
+html {
+    -webkit-writing-mode:   vertical-rl;
+    -moz-writing-mode:      vertical-rl;
+    -ms-writing-mode:       vertical-rl;
+    writing-mode:           vertical-rl;
+    text-orientation: upright;
+    font-family: "UD Digi Kyokasho NK-R", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+
+/* p { */
+/*     line-height: 1.5; */
+/* } */
+p.name {
+    text-align: right;
+}
+p {
+    line-height: 2;
+}
+
+/* style type for ordered list up to 5*/
+@counter-style custom-ordered {
+    system: cycle;
+    symbols: '⑴' '⑵' '⑶' '⑷' '⑸' '⑹' '⑺' '⑻';
+    suffix: ' ';
+}
+ol {
+    list-style-type: custom-ordered;
+}
+ol.answers {
+    list-style-type: katakana !important;
+    display: inline-block;
+    border: 1px solid grey;
+    padding: 50px 10px 20px 10px;
+    line-height: 1.5;
+    margin-right: 5px;
+}
+ul.task {
+    list-style-type: '■ ';
+}
+
+/* styling the cloze box */
+span.box {
+    display: inline-block;
+    width: 3em;
+    height: 3em;
+    border: 1px dashed black;
+    background-color: rgb(236, 236, 236);
+    margin-left: 10px;
+    margin-right: 10px;
+    /* vertical-align: middle; */
+    /* margin-left: 0.8em; */
+}
+span.cloze {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    /* line-height: normal; */
+}
+
+li > strong {
+    font-size: 2em;
+}
+
+strong > span.kanji {
+    /* font-size: 1.5em; */
+    text-decoration: overline;
+    line-height: 2;
+}
+
+/* styling the ruby over the text box */
+rb, rt {
+    /* display: inline; */
+    /* line-height: 1; */
+    margin-left: 10px;
+    /* margin-right: 10px; */
+    font-size: 0.7em;
+}
+ruby {
+    /* display: inline-flex; */
+    /* flex-direction: column-reverse; */
+    /* text-align: center; */
+    ruby-align: center;
+}
+
+/* split the paper in half */
+.column {
+    display: flex;
+}
+.row_top {
+    flex: 50%;
+    padding-bottom: 2em;
+    border-bottom: 2px dashed black;
+}
+.row_bottom {
+    padding-top: 2em;
+    flex: 50%;
+}
