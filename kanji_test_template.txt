@@ -26,7 +26,7 @@ answers:
 5. 家で育てる
 
 There must be an empty line above this line. All other empty lines also need to stay.
-For task_1, two parentheses "（ふりがな）" create an empty text box with the text in parentheses as ruby above it. Be mindful that the parentheses must be in full-spaced （全角）.
+For task_1, two parentheses "（ふりがな）" create an empty text box with the text in parentheses as ruby above it. 
 For task_2, the square brackets 【 】create a strong tag and the parentheses （　）create an overline for the kanji.
 
 Run the .exe file and choose the input .txt where you added the task items and answers as outlined above. An output .html will be generated in the same directory as the .css file. You can view that .html file in the browser (Firefox worked best for displaying vertical text) and print from there. 

@@ -112,14 +112,25 @@ for task in blocks:
 # for-loop over all the task items of task 1 here
 for i in range(len(task_1)):
     text = task_1[i]
-    # replace opening brackets in the middle of jukugo
-    text = re.sub(r"）（", "）" + bracket_open_tag, text)
-    # replace closing brackets in the middle of jukugo
-    text = re.sub(r"）<", bracket_close_tag + "<", text)
-    # replace the remaining closing brackets
-    text = re.sub(r"）", bracket_close_tag + span_close_tag, text)
-    # replace the remaining opening brackets
-    text = re.sub(r"（", cloze_tag + bracket_open_tag, text)
+    if ')' in text:
+        # replace opening brackets in the middle of jukugo
+        text = re.sub(r"\)\(", ")" + bracket_open_tag, text)
+        # replace closing brackets in the middle of jukugo
+        text = re.sub(r"\)<", bracket_close_tag + "<", text)
+        # replace the remaining closing brackets
+        text = re.sub(r"\)", bracket_close_tag + span_close_tag, text)
+        # replace the remaining opening brackets
+        text = re.sub(r"\(", cloze_tag + bracket_open_tag, text)
+        # write to the task list
+    if '）' in text:
+        # replace opening brackets in the middle of jukugo
+        text = re.sub(r"）（", "）" + bracket_open_tag, text)
+        # replace closing brackets in the middle of jukugo
+        text = re.sub(r"）<", bracket_close_tag + "<", text)
+        # replace the remaining closing brackets
+        text = re.sub(r"）", bracket_close_tag + span_close_tag, text)
+        # replace the remaining opening brackets
+        text = re.sub(r"（", cloze_tag + bracket_open_tag, text)
     # write to the task list
     task_1[i] = text
     
@@ -128,14 +139,24 @@ for i in range(len(task_2)):
     text = task_2[i]
     # add the box to the beginning of the line
     text = cloze_tag + box_tag + span_close_tag + text
-    # replace opening square brackets with strong tag
-    text = re.sub(r"【", strong_open_tag, text)
-    # replace closing square brackets with strong tag
-    text = re.sub(r"】", strong_close_tag, text)
-    # replace opening parentheses with span kanji class tag
-    text = re.sub(r"（", kanji_tag, text)
-    # replace closing parentheses with span tag
-    text = re.sub(r"）", span_close_tag, text)
+    if ')' in text:
+        # replace opening square brackets with strong tag
+        text = re.sub(r"\[", strong_open_tag, text)
+        # replace closing square brackets with strong tag
+        text = re.sub(r"\]", strong_close_tag, text)
+        # replace opening parentheses with span kanji class tag
+        text = re.sub(r"\(", kanji_tag, text)
+        # replace closing parentheses with span tag
+        text = re.sub(r"\)", span_close_tag, text)
+    if '）' in text:
+        # replace opening square brackets with strong tag
+        text = re.sub(r"【", strong_open_tag, text)
+        # replace closing square brackets with strong tag
+        text = re.sub(r"】", strong_close_tag, text)
+        # replace opening parentheses with span kanji class tag
+        text = re.sub(r"（", kanji_tag, text)
+        # replace closing parentheses with span tag
+        text = re.sub(r"）", span_close_tag, text)
     # write to the task list
     task_2[i] = text
 
