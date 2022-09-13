@@ -6,46 +6,53 @@
 # - [x] Save the combined HTML as a new file
 # - [x] Create a file choose prompt
 # - [x] Use the dominate library
-# - [ ] Add example for markup
+# - [x] Add example for markup
 # - [ ] Make Github repo
 
 import os
+from os.path import exists
 import re
-from unittest import TextTestResult
 import dominate
 from dominate.tags import *
 from dominate.util import raw
-import tkinter
 from tkinter import filedialog
+import argparse # for optional input arguments
 
-DEBUG = False
-
-if DEBUG:
-    with open ('template.txt') as file:
-        input_file = file.readlines()
-    file.close()
+# Create ArgumentParser object
+parser = argparse.ArgumentParser(description='Select input file')
+parser.add_argument('filepath', type = str, nargs = '?', default = 'choose')
+args = parser.parse_args()
+if args.filepath == 'choose':
+    select_file_dialog = True
 else:
+    select_file_dialog = False
+
 # ========== IMPORT THE FILES ===============
 # load tkinter filedialog to display a dialog for the user to choose a file
 # Let user choose a file
 # Function to open a file in the system
-    def open_file():
-        print('Please choose a source file.')
-        filepath = filedialog.askopenfilename(title = "テキストファイルを選択してください", filetypes = (("text files", "*.txt"), ("markdown", "*.md"), ("all files", "*.*")))
-        file = open(filepath,'r')
-        input_file = file.readlines()
-        filename = filepath.split('/')[-1]
-        file.close()
-        return (input_file, filename)
+def open_file():
+    # print('Please choose a source file.')
+    if select_file_dialog:
+        fpath = filedialog.askopenfilename(title = "テキストファイルを選択してください", filetypes = (("text files", "*.txt"), ("markdown", "*.md"), ("all files", "*.*")))
+    else:
+        fpath = args.filepath
+    file = open(fpath,'r')
+    input_file = file.readlines()
+    dirname, fname = os.path.split(fpath)
+    file.close()
+    return (input_file, dirname, fname)
 
 # Prompt the user to choose a text file
-    (input_file, filename) = open_file()
+(raw_file, directory, filename) = open_file()
 
 # =========== STRUCTURE THE INFORMATION
 
-len(input_file)
-# Remove all new lines from file
-input_file = [line.replace('\n', '') for line in input_file]
+# Remove all new lines and all white additional white space from file
+input_file = [line.strip() for line in raw_file]
+
+# Remove all empty lines that are more than two in a row
+input_file = [input_file[i] for i in range(len(input_file)) if not (input_file[i] == input_file[i-1] == '')]
 
 # find metadata
 metadata = {}
@@ -72,11 +79,17 @@ strong_open_tag = "<strong>"
 strong_close_tag = "</strong>"
 kanji_tag = "<span class = 'kanji'>" 
 
-# Loop over all the tasks
-task_1 = []
-task_2 = []
-answers = []
-blocks = {'task_1': task_1, 'task_2': task_2, 'answers': answers}
+# Loop over all the tasks that are the file
+blocks = {}
+if any('task_1:' in line for line in input_file):
+    task_1 = []
+    blocks['task_1'] = task_1
+if any('task_2:' in line for line in input_file):
+    task_2 = []
+    blocks['task_2'] = task_2
+if any('answers:' in line for line in input_file):
+    answers = []
+    blocks['answers'] = answers
 
 # for task in ['task_1', 'task_2', 'answers']:
 for task in blocks:
@@ -126,11 +139,115 @@ for i in range(len(task_2)):
     # write to the task list
     task_2[i] = text
 
-# =========== CREATE THE HTML ===============
+# =========== CREATE THE HTML =======================================
+# =========== EMBED A VERSION OF THE CSS IN THE HTML ================
+style_css = """
+/* make the text vertical */
+html {
+    -webkit-writing-mode:   vertical-rl;
+    -moz-writing-mode:      vertical-rl;
+    -ms-writing-mode:       vertical-rl;
+    writing-mode:           vertical-rl;
+    text-orientation: upright;
+    font-family: "UD Digi Kyokasho NK-R", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+
+/* p { */
+/*     line-height: 1.5; */
+/* } */
+p.name {
+    text-align: right;
+}
+p {
+    line-height: 2;
+}
+
+/* style type for ordered list up to 5*/
+@counter-style custom-ordered {
+    system: cycle;
+    symbols: '⑴' '⑵' '⑶' '⑷' '⑸' '⑹' '⑺' '⑻';
+    suffix: ' ';
+}
+ol {
+    list-style-type: custom-ordered;
+}
+ol.answers {
+    list-style-type: katakana !important;
+    display: inline-block;
+    border: 1px solid grey;
+    padding: 50px 10px 20px 10px;
+    line-height: 1.5;
+    margin-right: 5px;
+}
+ul.task {
+    list-style-type: '■ ';
+}
+
+/* styling the cloze box */
+span.box {
+    display: inline-block;
+    width: 3em;
+    height: 3em;
+    border: 1px dashed black;
+    background-color: rgb(236, 236, 236);
+    margin-left: 10px;
+    margin-right: 10px;
+    /* vertical-align: middle; */
+    /* margin-left: 0.8em; */
+}
+span.cloze {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    /* line-height: normal; */
+}
+
+li > strong {
+    font-size: 2em;
+}
+
+strong > span.kanji {
+    /* font-size: 1.5em; */
+    text-decoration: overline;
+    line-height: 2;
+}
+
+/* styling the ruby over the text box */
+rb, rt {
+    /* display: inline; */
+    /* line-height: 1; */
+    margin-left: 10px;
+    /* margin-right: 10px; */
+    font-size: 0.7em;
+}
+ruby {
+    /* display: inline-flex; */
+    /* flex-direction: column-reverse; */
+    /* text-align: center; */
+    ruby-align: center;
+}
+
+/* split the paper in half */
+.column {
+    display: flex;
+}
+.row_top {
+    flex: 50%;
+    padding-bottom: 2em;
+    border-bottom: 2px dashed black;
+}
+.row_bottom {
+    padding-top: 2em;
+    flex: 50%;
+}
+
+"""
 
 doc = dominate.document(title = 'Kanji Test')
 with doc.head:
-    link(rel='stylesheet', type='text/css', href='kanji_test.css', media='all')
+    if os.path.exists('kanji_test.css'):
+        link(rel='stylesheet', type='text/css', href='kanji_test.css', media='all')
+    else: 
+        style(raw(style_css))
 
 with doc:
     with div():
@@ -140,29 +257,34 @@ with doc:
             p(metadata['title'] +'　' + metadata['gakunen'] + '　' + metadata['date'])
             with p('名前【　　　　　　　　　　　　　　　　　　　　】'):
                 attr(cls='name')
-            with ul():
-                attr(cls='task')
-                li(task_1_instr)
-            with ol():
-                for item in task_1:
-                    li(raw(item))
-        with div():
-            attr(cls='row_bottom')
-            with ul():
-                li(task_2_instr)
-            with ol():
-                for item in task_2:
-                    li(raw(item))
-            with ol():
-                attr(cls='answers')
-                for item in answers:
-                    li(item)
+            if 'task_1' in blocks:
+                with ul():
+                    attr(cls='task')
+                    li(task_1_instr)
+                with ol():
+                    for item in task_1:
+                        li(raw(item))
+        if 'task_2' in blocks:
+            with div():
+                attr(cls='row_bottom')
+                with ul():
+                    li(task_2_instr)
+                with ol():
+                    for item in task_2:
+                        li(raw(item))
+                if 'answers' in blocks:
+                    with ol():
+                        attr(cls='answers')
+                        for item in answers:
+                            li(item)
 
 # ================ EXPORT THE HTML =====================
-output_file = filename.split(".")[0] + ".html"
-f = open(output_file, 'w')
+output_filename = filename.split(".")[0] + ".html"
+full_output_path = os.path.join(directory, output_filename)
+f = open(full_output_path, 'w')
 print(doc, file = f)
 # file.write(doc)
 f.close()
 
-print('Kanji test has been successfully created as ' + output_file)
+if not select_file_dialog:
+    print('Kanji test has been successfully created at ' + full_output_path)

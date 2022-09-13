@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Kanji Test</title>
+    <style>
+/* make the text vertical */
+html {
+    -webkit-writing-mode:   vertical-rl;
+    -moz-writing-mode:      vertical-rl;
+    -ms-writing-mode:       vertical-rl;
+    writing-mode:           vertical-rl;
+    text-orientation: upright;
+    font-family: "UD Digi Kyokasho NK-R", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+
+/* p { */
+/*     line-height: 1.5; */
+/* } */
+p.name {
+    text-align: right;
+}
+p {
+    line-height: 2;
+}
+
+/* style type for ordered list up to 5*/
+@counter-style custom-ordered {
+    system: cycle;
+    symbols: '⑴' '⑵' '⑶' '⑷' '⑸' '⑹' '⑺' '⑻';
+    suffix: ' ';
+}
+ol {
+    list-style-type: custom-ordered;
+}
+ol.answers {
+    list-style-type: katakana !important;
+    display: inline-block;
+    border: 1px solid grey;
+    padding: 50px 10px 20px 10px;
+    line-height: 1.5;
+    margin-right: 5px;
+}
+ul.task {
+    list-style-type: '■ ';
+}
+
+/* styling the cloze box */
+span.box {
+    display: inline-block;
+    width: 3em;
+    height: 3em;
+    border: 1px dashed black;
+    background-color: rgb(236, 236, 236);
+    margin-left: 10px;
+    margin-right: 10px;
+    /* vertical-align: middle; */
+    /* margin-left: 0.8em; */
+}
+span.cloze {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    /* line-height: normal; */
+}
+
+li > strong {
+    font-size: 2em;
+}
+
+strong > span.kanji {
+    /* font-size: 1.5em; */
+    text-decoration: overline;
+    line-height: 2;
+}
+
+/* styling the ruby over the text box */
+rb, rt {
+    /* display: inline; */
+    /* line-height: 1; */
+    margin-left: 10px;
+    /* margin-right: 10px; */
+    font-size: 0.7em;
+}
+ruby {
+    /* display: inline-flex; */
+    /* flex-direction: column-reverse; */
+    /* text-align: center; */
+    ruby-align: center;
+}
+
+/* split the paper in half */
+.column {
+    display: flex;
+}
+.row_top {
+    flex: 50%;
+    padding-bottom: 2em;
+    border-bottom: 2px dashed black;
+}
+.row_bottom {
+    padding-top: 2em;
+    flex: 50%;
+}
+
+</style>
+  </head>
+  <body>
+    <div class="column">
+      <div class="row_top">
+        <p>漢字テスト　小学一年生　令和四年九月十三日（火）</p>
+        <p class="name">名前【　　　　　　　　　　　　　　　　　　　　】</p>
+        <ul class="task">
+          <li>当てはまる漢字を書きましょう。問題文</li>
+        </ul>
+        <ol>
+          <li>カッコで囲む<span class='cloze'><ruby><span class='box'></span><rt>こと</rt></ruby><ruby><span class='box'></span><rt>ば</rt></ruby></span>が箱に返還されます。</li>
+          <li>次の項目を次の<span class='cloze'><ruby><span class='box'></span><rt>ぎょう</rt></ruby></span>に書きましょう。</li>
+          <li><span class='cloze'><ruby><span class='box'></span><rt>はこ</rt></ruby></span>の<span class='cloze'><ruby><span class='box'></span><rt>ばしょ</rt></ruby></span>や<span class='cloze'><ruby><span class='box'></span><rt>かず</rt></ruby></span>は<span class='cloze'><ruby><span class='box'></span><rt>なん</rt></ruby></span>でもいいです。</li>
+          <li>カッコを必ず閉じてくださいね。</li>
+          <li>項目は今のところ十個まで。</li>
+        </ol>
+      </div>
+      <div class="row_bottom">
+        <ul>
+          <li>読みがなを書いて、その言葉の意味に合うものをア～オの中からえらびましょう。</li>
+        </ul>
+        <ol>
+          <li><span class='cloze'><span class='box'></span></span>目的の漢字は丸いカッコで<strong><span class = 'kanji'>囲</span>み</strong>送り仮名はカギカッコで囲みます。</li>
+          <li><span class='cloze'><span class='box'></span></span>タスク１のように一つの項目を一つの行に<strong><span class = 'kanji'>書</span>きます</strong>。</li>
+          <li><span class='cloze'><span class='box'></span></span><strong><span class = 'kanji'>二</span>つ</strong>以上のマークアップも<strong><span class = 'kanji'>可能</span></strong>です。</li>
+          <li><span class='cloze'><span class='box'></span></span>これは<strong><span class = 'kanji'>例文</span></strong>です。</li>
+          <li><span class='cloze'><span class='box'></span></span>タスク２の答えを下記に入力できます。</li>
+        </ol>
+        <ol class="answers">
+          <li>ゆだねる</li>
+          <li>出てくる</li>
+          <li>行動・表情</li>
+          <li>本当に</li>
+          <li>家で育てる</li>
+        </ol>
+      </div>
+    </div>
+  </body>
+</html>

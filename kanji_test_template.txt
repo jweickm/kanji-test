@@ -1,0 +1,33 @@
+title: 漢字テスト
+gakunen: 小学一年生
+date: 令和四年九月十三日（火）
+
+task_1:
+instructions: 当てはまる漢字を書きましょう。問題文
+1. カッコで囲む（こと）（ば）が箱に返還されます。
+2. 次の項目を次の（ぎょう）に書きましょう。
+3. （はこ）の（ばしょ）や（かず）は（なん）でもいいです。
+4. カッコを必ず閉じてくださいね。
+5. 項目は今のところ十個まで。
+
+task_2:
+instructions: 読みがなを書いて、その言葉の意味に合うものをア～オの中からえらびましょう。
+1. 目的の漢字は丸いカッコで【（囲）み】送り仮名はカギカッコで囲みます。
+2. タスク１のように一つの項目を一つの行に【（書）きます】。
+3. 【（二）つ】以上のマークアップも【（可能）】です。
+4. これは【（例文）】です。
+5. タスク２の答えを下記に入力できます。
+
+answers:
+1. ゆだねる
+2. 出てくる
+3. 行動・表情
+4. 本当に
+5. 家で育てる
+
+There must be an empty line above this line. All other empty lines also need to stay.
+For task_1, two parentheses "（ふりがな）" create an empty text box with the text in parentheses as ruby above it. Be mindful that the parentheses must be in full-spaced （全角）.
+For task_2, the square brackets 【 】create a strong tag and the parentheses （　）create an overline for the kanji.
+
+Run the .exe file and choose the input .txt where you added the task items and answers as outlined above. An output .html will be generated in the same directory as the .css file. You can view that .html file in the browser (Firefox worked best for displaying vertical text) and print from there. 
+Written by Jakob Weickmann, 2022-09-13
