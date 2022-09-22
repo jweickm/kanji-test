@@ -7,7 +7,7 @@
 # - [x] Create a file choose prompt
 # - [x] Use the dominate library
 # - [x] Add example for markup
-# - [ ] Make Github repo
+# - [x] Make Github repo
 
 import os
 from os.path import exists
@@ -34,7 +34,7 @@ else:
 def open_file():
     # print('Please choose a source file.')
     if select_file_dialog:
-        fpath = filedialog.askopenfilename(title = "テキストファイルを選択してください", filetypes = (("text files", "*.txt"), ("markdown", "*.md"), ("all files", "*.*")))
+        fpath = filedialog.askopenfilename(title = "テキストファイルを選択してください", filetypes = (("text files", ["*.txt","*.md"]), ("all files", "*.*")))
     else:
         fpath = args.filepath
     file = open(fpath,'r')
@@ -289,6 +289,7 @@ with doc:
             with div():
                 attr(cls='row_bottom')
                 with ul():
+                    attr(cls='task')
                     li(task_2_instr)
                 with ol():
                     for item in task_2:
@@ -302,9 +303,19 @@ with doc:
 # ================ EXPORT THE HTML =====================
 output_filename = filename.split(".")[0] + ".html"
 full_output_path = os.path.join(directory, output_filename)
-f = open(full_output_path, 'w')
+
+if select_file_dialog:
+# ================ Ask for filename before export ==========
+    f = filedialog.asksaveasfile(mode = 'w', confirmoverwrite = True, defaultextension = '.html', filetypes = [("HTML", "*.html")], initialfile = output_filename)
+else:
+    if os.path.exists(full_output_path):
+        print("A file with the name", str(full_output_path), "already exists in the chosen directory.\nIf you continue, it will be overwritten.")
+        user_input = input("Do you want to continue? (Y/n)")
+        if user_input not in ['y', 'Y', 'yes', 'Yes']:
+            quit() # terminate the script
+    f = open(full_output_path, 'w')
+
 print(doc, file = f)
-# file.write(doc)
 f.close()
 
 if not select_file_dialog:

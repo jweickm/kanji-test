@@ -4,10 +4,6 @@ This software allows the automated creation of simple one-page kanji tests as HT
 
 ![Example Print](./kanji_test.jpg)
 
-It uses [dominate](https://github.com/Knio/dominate) to create the file from different variables in python. The input is a custom simple markup to indicate the location of the kanji boxes. 
-
-Binary compilation has been done with [pyinstaller](https://pyinstaller.org).
-
 ## Installation
 
 Precompiled binaries can be found under the releases tab.
@@ -27,7 +23,7 @@ task_1:
 instructions: 当てはまる漢字を書きましょう。問題文
 1. カッコで囲む（こと）（ば）が箱に返還されます。
 2. 次の項目を次の（ぎょう）に書きましょう。
-3. （はこ）の（ばしょ）や（かず）は（なん）でもいいです。
+3. （はこ）の（ば)(しょ）や（かず）は（なん）でもいいです。
 4. カッコを必ず閉じてくださいね。
 5. 項目は今のところ十個まで。
 
@@ -58,3 +54,11 @@ Parentheses and brackets can be either double or single-spaced, but not mixed.
 
 Write the questions in a text file according to the structure above.
 Running the `.exe` then prompts the user to choose a text input file. The script will create an `.html` file with the same name in the same directory as the text file. For printing, I recommend using [Firefox browser](https://www.mozilla.org/firefox/) as it has better support for vertical Japanese text (as of Sep 13th 2022). For best results, disable header and footer, and enable background images in the print dialog. 
+
+### Attributions
+
+This script uses [dominate](https://github.com/Knio/dominate) to create the file from different variables in python. The input is a custom simple markup to indicate the location of the kanji boxes. 
+
+Binary compilation has been done with [pyinstaller](https://pyinstaller.org).
+
+<a href="https://www.flaticon.com/free-icons/kanji" title="kanji icons">Kanji icons created by Freepik - Flaticon</a>
