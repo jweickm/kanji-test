@@ -74,7 +74,7 @@ for line in input_file[:l]:
 # Define HTML tags that should replace the brackets
 cloze_tag = "<span class='cloze'>"
 span_close_tag = "</span>"
-box_tag = "<span class='box'></span>"
+box_tag = "<span class='box box2'></span>"
 bracket_open_tag = "<ruby><span class='box'></span><rt>"
 bracket_close_tag = "</rt></ruby>"
 strong_open_tag = "<strong>"
@@ -191,15 +191,22 @@ p {
     symbols: '⑴' '⑵' '⑶' '⑷' '⑸' '⑹' '⑺' '⑻';
     suffix: ' ';
 }
+
+@counter-style katakana-custom {
+    system: cycle;
+    symbols: 'ア' 'イ' 'ウ' 'エ' 'オ';
+    suffix: ' ';
+}
 ol {
+    line-height: 2;
     list-style-type: custom-ordered;
 }
 ol.answers {
-    list-style-type: katakana !important;
+    list-style-type: katakana-custom !important;
     display: inline-block;
-    border: 1px solid grey;
+    border: 1px double grey;
     padding: 50px 10px 20px 10px;
-    line-height: 1.5;
+    line-height: 1.2;
     margin-right: 5px;
 }
 ul.task {
@@ -211,17 +218,23 @@ span.box {
     display: inline-block;
     width: 3em;
     height: 3em;
-    border: 1px dashed black;
-    background-color: rgb(236, 236, 236);
-    margin-left: 10px;
-    margin-right: 10px;
+    border: 1px double black;
+    background-color: rgb(250, 250, 250);
+    margin-left: 20px;
+    margin-right: 20px;
     /* vertical-align: middle; */
     /* margin-left: 0.8em; */
 }
+
 span.cloze {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     /* line-height: normal; */
+}
+
+span.box2 {
+    width: 2em !important;
+    height: 2em !important;
 }
 
 li > strong {
@@ -262,7 +275,6 @@ ruby {
     padding-top: 2em;
     flex: 50%;
 }
-
 """
 
 doc = dominate.document(title = 'Kanji Test')
@@ -277,8 +289,8 @@ with doc:
         attr(cls='column')
         with div():
             attr(cls='row_top')
-            p(metadata['title'] +'　' + metadata['gakunen'] + '　' + metadata['date'])
-            with p('名前【　　　　　　　　　　　　　　　　　　　　】'):
+            h2('　　' + metadata['title'] + '　　' + metadata['gakunen'])
+            with p(metadata['date'] + '　　' + '名前【　　　　　　　　　　　　　　　　　　　　】'):
                 attr(cls='name')
             if 'task_1' in blocks:
                 with ul():
