@@ -12,6 +12,7 @@
 import os
 from os.path import exists
 import re
+import sys
 import dominate
 from dominate.tags import *
 from dominate.util import raw
@@ -36,7 +37,7 @@ def open_file():
     if select_file_dialog:
         fpath = filedialog.askopenfilename(title = "テキストファイルを選択してください", filetypes = (("text files", ["*.txt","*.md"]), ("all files", "*.*")))
         if fpath == '':
-            quit()
+            sys.exit()
     else:
         fpath = args.filepath
     file = open(fpath,'r')
@@ -322,13 +323,13 @@ if select_file_dialog:
 # ================ Ask for filename before export ==========
     f = filedialog.asksaveasfile(mode = 'w', confirmoverwrite = True, defaultextension = '.html', filetypes = [("HTML", "*.html")], initialfile = output_filename)
     if f == '':
-        quit()
+        sys.exit()
 else:
     if os.path.exists(full_output_path):
         print("A file with the name", str(full_output_path), "already exists in the chosen directory.\nIf you continue, it will be overwritten.")
         user_input = input("Do you want to continue? (Y/n)")
         if user_input not in ['y', 'Y', 'yes', 'Yes']:
-            quit() # terminate the script
+            sys.exit() # terminate the script
     f = open(full_output_path, 'w')
 
 print(doc, file = f)
